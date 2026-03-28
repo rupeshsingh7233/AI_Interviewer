@@ -1,4 +1,5 @@
 import expressAsyncHandler from "express-async-handler";
+import AsyncHandler from "express-async-handler";
 import User from "../models/User.js";
 import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
@@ -42,6 +43,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
     }
 });
 
+
 const loginUser = AsyncHandler(async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -50,18 +52,18 @@ const loginUser = AsyncHandler(async (req, res) => {
     }
     const user = await User.findOne({ email });
     if (user && (await user.matchPassword(password))) {
-        res.json({
+        res.status(201).json({
             _id: user._id,
             name: user.name,
             email: user.email,
-            prefferedRole: user.preferredRole,
+            preferredRole: user.preferredRole,
             token: generateToken(user._id),
         });
     } else {
         res.status(400);
         throw new Error("Invalid credentials");
-    }
-});
+    }    
+})
 
 const googleLogin = AsyncHandler(async (req, res) => {
     const { tokenId } = req.body;

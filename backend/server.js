@@ -8,6 +8,10 @@ import userRoutes from "./routes/userRoutes.js";
 // import sessionRoutes from "./routes/sessionRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
+ console.log(process.env.MONGO_URI);
+import dns from 'dns';
+dns.setDefaultResultOrder('ipv4first');
+
 dotenv.config();
 
 connectDB(); 
@@ -16,8 +20,8 @@ const app = express();
 const server = http.createServer(app);
 
 const allowOrigin = [
-    "http://localhost:7233",
-    "http://localhost:7233",
+    "http://localhost:5174",
+    "http://localhost:5174",
 ]
 
 const io = new Server(server, {
@@ -42,7 +46,7 @@ app.use(cors({
     },
     credentials: true,
     methods: ["GET", "POST","PUT", "DELETE","PATCH","OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", x-Requested-With],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
 }))
 
 app.use(express.json());
@@ -72,7 +76,7 @@ io.on("connection", (socket) => {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 8888;
+const PORT = process.env.PORT || 5001;
 
 server.listen(
     PORT,
