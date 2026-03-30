@@ -13,8 +13,6 @@ dotenv.config();
 
 dns.setDefaultResultOrder("ipv4first");
 
-console.log("MONGO_URI:", process.env.MONGO_URI);
-
 connectDB();
 
 const app = express();
@@ -61,7 +59,9 @@ app.get("/", (req, res) => {
   res.send("API is running");
 });
 
+
 app.use("/api/users", userRoutes);
+// app.use("/api/sessions", sessionRoutes);
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);

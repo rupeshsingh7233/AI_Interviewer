@@ -118,25 +118,28 @@ const getUserProfile = AsyncHandler(async (req, res) => {
 const updateUserProfile = AsyncHandler(async (req, res) => {
     if (req.user) {
         const user = await User.findById(req.user._id);
-            user.name = req.body.name || user.name;
-            user.email = req.body.email || user.email;
-            user.preferredRole = req.body.preferredRole || user.preferredRole;
-            if(req.body.password) {
-                user.password = req.body.password;
-            }
-            await user.save();
-            res.status(200).json({
-                _id: updatedUser._id,
-                name: updatedUser.name,
-                email: updatedUser.email,
-                prefferedRole: updatedUser.preferredRole
-            });
+
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        user.preferredRole = req.body.preferredRole || user.preferredRole;
+
+        if (req.body.password) {
+            user.password = req.body.password;
         }
-        
-        else {
-            res.status(404);
-            throw new Error("User not found");
-        }
-    })
+
+        const updatedUser = await user.save();
+
+        res.status(200).json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            preferredRole: updatedUser.preferredRole 
+        });
+
+    } else {
+        res.status(404);
+        throw new Error("User not found");
+    }
+});
 
 export { registerUser, loginUser, googleLogin, getUserProfile, updateUserProfile };

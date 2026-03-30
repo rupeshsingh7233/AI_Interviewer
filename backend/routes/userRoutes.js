@@ -1,13 +1,13 @@
 import express from "express";
 import { registerUser, loginUser, googleLogin, getUserProfile, updateUserProfile} from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
+import { get } from "mongoose";
 
 const router = express.Router(); 
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/google", googleLogin);
-router.get("/profile", protect, getUserProfile);
-router.put("/profile", protect, updateUserProfile);
+router.route("/profile").get(protect, getUserProfile).put( protect, updateUserProfile);
 
 export default router;
