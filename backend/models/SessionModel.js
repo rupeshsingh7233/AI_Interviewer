@@ -30,6 +30,18 @@ const questionSchema = new mongoose.Schema({
       type: Boolean,
       default: false,
   },
+  technicalScore: {
+      type: Number,
+      default: 0,
+  },
+  confidenceScore: {
+      type: Number,
+      default: 0,
+  },
+  aiFeedback: {
+      type: String,
+      default: 'Not yet submitted or evaluated',
+  },
   
 
 });
