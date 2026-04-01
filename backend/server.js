@@ -3,15 +3,16 @@ import http from "http";
 import dotenv from "dotenv";
 import cors from "cors";
 import { Server } from "socket.io";
-import dns from "dns";
-
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
+import sessionRoutes from "./routes/sessionRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
-
+// ------------------------------------
+import dns from "dns";
 dns.setDefaultResultOrder("ipv4first");
+// ------------------------------------
 
 connectDB();
 
@@ -61,7 +62,7 @@ app.get("/", (req, res) => {
 
 
 app.use("/api/users", userRoutes);
-// app.use("/api/sessions", sessionRoutes);
+app.use("/api/sessions", sessionRoutes);
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);

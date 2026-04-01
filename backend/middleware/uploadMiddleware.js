@@ -1,4 +1,5 @@
-import multer from "multer";    
+import multer from "multer";   
+import path from "path"; 
 
 const storage = multer.diskStorage({
         destination(req, file, cb) {
@@ -27,5 +28,6 @@ const storage = multer.diskStorage({
         limits: {fileSize: 1024 * 1024 * 10,}, // 10MB
     });
 
-    const uploadSingle = upload.single('audio');
-    export {uploadSingle};
+    export const uploadSingleAudio = upload.single("audio");
+    // const uploadSingleAudio = upload.single('audio');
+    // export {uploadSingleAudio};
